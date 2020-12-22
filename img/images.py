@@ -175,3 +175,12 @@ menu_img = pygame.transform.scale(
     ), 
   (int(WIDTH/3), int(int(WIDTH/3)/menu_size[0]*menu_size[1]))
 )
+
+bullet_size = Image.open(os.path.join(img_folder, 'bullet.png')).size
+
+bullet_img = pygame.transform.scale(
+  pygame.image.load(
+    os.path.join(img_folder, 'bullet.png')
+    ), 
+  (int(WIDTH/20), int(int(WIDTH/20)/bullet_size[0]*bullet_size[1]))
+)

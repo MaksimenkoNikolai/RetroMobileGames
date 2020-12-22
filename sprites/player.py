@@ -4,6 +4,8 @@ from settings import *
 from img.images import *
 from sound.sounds import *
 
+from sprites.bullet import Bullet
+
 class Player(pygame.sprite.Sprite):
   def __init__(self):
     pygame.sprite.Sprite.__init__(self)
@@ -35,6 +37,7 @@ class Player(pygame.sprite.Sprite):
     
     self.is_shoot = False
     self.anim_shoot_count = 0
+    self.bullets = []
   
   def update(self):
     self.move_x()
@@ -45,6 +48,9 @@ class Player(pygame.sprite.Sprite):
     if self.is_shoot:
       self.shoot_anim()
     
+    for bullet in self.bullets:
+      bullet.update()
+    
     if self.rect.bottom > HEIGHT and not self.is_loose:
       self.end_game()
     
@@ -53,9 +59,12 @@ class Player(pygame.sprite.Sprite):
         self.scroll_up()
       else: 
         self.fall()
+    
   
   def draw(self, screen):
     screen.blit(self.image, self.rect)
+    for bullet in self.bullets:
+      bullet.draw(screen)
   
   def start_accelerating_x(self, is_right):
     self.is_accelerating_x = True
@@ -146,7 +155,13 @@ class Player(pygame.sprite.Sprite):
     self.rect = self.image.get_rect()
     self.rect.center = center
     
+    self.anim_shoot_count = 0
     self.is_shoot = True
+    
+    shoot_sound.play()
+    
+    new_bullet = Bullet(self.rect.centerx, self.rect.top)
+    self.bullets.append(new_bullet)
   
   def shoot_anim(self):
     self.anim_shoot_count += 1
