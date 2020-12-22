@@ -32,13 +32,19 @@ class Player(pygame.sprite.Sprite):
     
     self.is_loose = False
     self.is_scrolling_up = False
+    
+    self.is_shoot = False
+    self.anim_shoot_count = 0
   
   def update(self):
     self.move_x()
     
     if not self.is_stop and not self.is_loose:
       self.jump()
-      
+    
+    if self.is_shoot:
+      self.shoot_anim()
+    
     if self.rect.bottom > HEIGHT and not self.is_loose:
       self.end_game()
     
@@ -56,17 +62,21 @@ class Player(pygame.sprite.Sprite):
     
     if self.is_squezing:
       if is_right:
-        self.image = doodle_squeeze_right_img
+        if not self.is_shoot:
+          self.image = doodle_squeeze_right_img
         self.is_right = True
       else:
-        self.image = doodle_squeeze_left_img
+        if not self.is_shoot:
+          self.image = doodle_squeeze_left_img
         self.is_right = False
     else:
       if not is_right:
-        self.image = doodle_left_img
+        if not self.is_shoot:
+          self.image = doodle_left_img
         self.is_right = False
       else:
-        self.image = doodle_right_img
+        if not self.is_shoot:
+          self.image = doodle_right_img
         self.is_right = True
   
   def stop_accelerating_x(self):
@@ -94,20 +104,22 @@ class Player(pygame.sprite.Sprite):
     self.is_squezing = True
     self.is_falling = False
     
-    if self.is_right:
-      self.image = doodle_squeeze_right_img
-    else:
-      self.image = doodle_squeeze_left_img
+    if not self.is_shoot:
+      if self.is_right:
+        self.image = doodle_squeeze_right_img
+      else:
+        self.image = doodle_squeeze_left_img
     
     pygame.time.set_timer(JUMPEVENT, 200, True)
   
   def un_squeeze(self):
     self.is_squezing = False
     
-    if self.is_right:
-      self.image = doodle_right_img
-    else:
-      self.image = doodle_left_img
+    if not self.is_shoot:
+      if self.is_right:
+        self.image = doodle_right_img
+      else:
+        self.image = doodle_left_img
   
   def jump(self): 
     self.rect.bottom -= self.speed_y
@@ -127,6 +139,28 @@ class Player(pygame.sprite.Sprite):
   def fall(self):
     self.rect.bottom -= self.speed_y
     self.speed_y = self.speed_y + self.gravity
+  
+  def shoot(self):
+    center = self.rect.center
+    self.image = doodle_shoot_img
+    self.rect = self.image.get_rect()
+    self.rect.center = center
+    
+    self.is_shoot = True
+  
+  def shoot_anim(self):
+    self.anim_shoot_count += 1
+    if self.anim_shoot_count >= 20:
+      self.is_shoot = False
+      self.anim_shoot_count = 0
+      
+      center = self.rect.center
+      if self.is_right:
+        self.image = doodle_right_img
+      else:
+        self.image = doodle_left_img
+      self.rect = self.image.get_rect()
+      self.rect.center = center
   
   def end_game(self):
     self.is_loose = True
@@ -148,4 +182,7 @@ class Player(pygame.sprite.Sprite):
     self.is_scrolling_up = False
     
     self.is_loose = False
+    
+    self.is_shoot = False
+    self.anim_shoot_count = 0
   

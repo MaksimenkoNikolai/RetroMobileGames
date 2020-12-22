@@ -43,6 +43,15 @@ doodle_squeeze_left_img = pygame.transform.scale(
   (int(WIDTH/7), int(WIDTH/7/doodle_squeeze_left_size[0]*doodle_squeeze_left_size[1]))
   )
 
+doodle_shoot_size = Image.open(os.path.join(img_folder, 'doodle_shoot.png')).size
+
+doodle_shoot_img = pygame.transform.scale(
+  pygame.image.load(
+    os.path.join(img_folder, 'doodle_shoot.png')
+    ), 
+  (int(int(WIDTH/7)*0.65), int(int(int(WIDTH/7)*0.65)/doodle_shoot_size[0]*doodle_shoot_size[1]))
+  )
+
 
 (width, height) = Image.open(os.path.join(img_folder, 'background.png')).size
 bg_size = (int(int(1.5*HEIGHT)/height*width), int(1.5*HEIGHT))

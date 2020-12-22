@@ -49,6 +49,8 @@ def handle_events():
           player.start_accelerating_x(False)
         if event.key == pygame.K_RIGHT:
           player.start_accelerating_x(True)
+        if event.key == pygame.K_SPACE:
+          player.shoot()
 
       if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
         is_go_to_menu = loose_screen.on_click(event.pos)
