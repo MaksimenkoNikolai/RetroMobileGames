@@ -169,8 +169,9 @@ def main():
 
         for e in pygame.event.get():
             if e.type == QUIT or (e.type == KEYUP and e.key == K_ESCAPE):
-                done = True
-                break
+                #done = True
+                #break
+                pygame.quit()
             elif e.type == KEYUP and e.key in (K_PAUSE, K_p):
                 paused = not paused
             elif e.type == MOUSEBUTTONUP or (e.type == KEYUP and
@@ -211,7 +212,8 @@ def main():
         pygame.display.flip()
         frame_clock += 1
     print('Game over! Score: %i' % score)
-    pygame.quit()
+    #pygame.quit()
+    main()
 
 
 if __name__ == '__main__':
