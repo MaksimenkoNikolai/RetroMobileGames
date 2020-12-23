@@ -63,10 +63,14 @@ def handle_events():
     else:
       if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
         menu.on_click(event.pos)
+      
+      if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+        menu.on_click_up(event.pos)
+      
 
 
 def draw():
-  screen.blit(bg, (0, 0))
+  screen.blit(bg, (0, 0)) 
   
   if screen_manager.is_game_start:
     loose_screen.draw(screen)
