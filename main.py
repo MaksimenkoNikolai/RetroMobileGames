@@ -25,7 +25,7 @@ all_sprites = pygame.sprite.Group()
 player = Player()
 platforms = Platforms(player)
 score = Score(player, platforms.platforms[0])
-loose_screen = LooseScreen(player)
+loose_screen = LooseScreen(player, score)
 
 for platform in platforms.platforms:
   all_sprites.add(platform)
@@ -53,7 +53,10 @@ def handle_events():
           player.shoot()
 
       if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-        is_go_to_menu = loose_screen.on_click(event.pos)
+        loose_screen.on_click(event.pos)
+      
+      if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+        is_go_to_menu = loose_screen.on_click_up(event.pos)
         if is_go_to_menu:
           screen_manager.end_game()
 

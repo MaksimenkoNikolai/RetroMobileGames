@@ -149,6 +149,15 @@ play_again_img = pygame.transform.scale(
   (int(WIDTH/3), int(int(WIDTH/3)/play_again_size[0]*play_again_size[1]))
 )
 
+play_again_on_size = Image.open(os.path.join(img_folder, 'play_again_on.png')).size
+
+play_again_on_img = pygame.transform.scale(
+  pygame.image.load(
+    os.path.join(img_folder, 'play_again_on.png')
+    ), 
+  (int(WIDTH/3), int(int(WIDTH/3)/play_again_on_size[0]*play_again_on_size[1]))
+)
+
 doodle_logo_size = Image.open(os.path.join(img_folder, 'doodle_logo.png')).size
 
 doodle_logo_img = pygame.transform.scale(
@@ -156,6 +165,15 @@ doodle_logo_img = pygame.transform.scale(
     os.path.join(img_folder, 'doodle_logo.png')
     ), 
   (int(WIDTH/3*2), int(int(WIDTH/3*2)/doodle_logo_size[0]*doodle_logo_size[1]))
+)
+
+game_over_size = Image.open(os.path.join(img_folder, 'game_over.png')).size
+
+game_over_img = pygame.transform.scale(
+  pygame.image.load(
+    os.path.join(img_folder, 'game_over.png')
+    ), 
+  (int(WIDTH/4*3), int(int(WIDTH/4*3)/game_over_size[0]*game_over_size[1]))
 )
 
 play_size = Image.open(os.path.join(img_folder, 'play.png')).size
@@ -183,6 +201,15 @@ menu_img = pygame.transform.scale(
     os.path.join(img_folder, 'menu.png')
     ), 
   (int(WIDTH/3), int(int(WIDTH/3)/menu_size[0]*menu_size[1]))
+)
+
+menu_on_size = Image.open(os.path.join(img_folder, 'menu_on.png')).size
+
+menu_on_img = pygame.transform.scale(
+  pygame.image.load(
+    os.path.join(img_folder, 'menu_on.png')
+    ), 
+  (int(WIDTH/3), int(int(WIDTH/3)/menu_on_size[0]*menu_on_size[1]))
 )
 
 bullet_size = Image.open(os.path.join(img_folder, 'bullet.png')).size
