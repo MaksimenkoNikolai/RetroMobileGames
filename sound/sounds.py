@@ -11,3 +11,4 @@ if pygame.mixer.get_init():
   break_sound = pygame.mixer.Sound(os.path.join(sound_dir, 'break.wav'))
   shoot_sound = pygame.mixer.Sound(os.path.join(sound_dir, 'shoot.wav'))
   hit_sound = pygame.mixer.Sound(os.path.join(sound_dir, 'hit.wav'))
+  monster_sound = pygame.mixer.Sound(os.path.join(sound_dir, 'monster.wav'))

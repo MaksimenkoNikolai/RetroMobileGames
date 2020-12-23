@@ -20,6 +20,7 @@ class Platform(pygame.sprite.Sprite):
     self.is_scrolling_up = False
     
     self.is_breakable = False
+    self.is_monster = False
   
   def update(self): 
     if self.player.is_falling:
@@ -37,6 +38,8 @@ class Platform(pygame.sprite.Sprite):
     
     self.move_x()
     self.break_down()
+    self.start_monster_music()
+    self.kill_monster()
   
   def is_collide_with_player(self):
     return len(pygame.sprite.spritecollide(self.player, [self], False)) and self.player.rect.right > self.rect.left and self.player.rect.left < self.rect.right and self.player.rect.bottom > self.rect.top and self.player.rect.bottom < self.rect.bottom
@@ -74,6 +77,12 @@ class Platform(pygame.sprite.Sprite):
     pass
   
   def break_down(self):
+    pass
+  
+  def start_monster_music(self):
+    pass
+  
+  def kill_monster(self):
     pass
 
 
@@ -137,6 +146,27 @@ class BreakingPlatform(Platform):
     self.anim_state += 1
   
 
+class Monster(Platform):
+  def __init__(self, x, y, player):
+    Platform.__init__(self, x, y, player)
+    
+    self.image = monster1_img
+    self.rect = self.image.get_rect()
+    self.rect.centerx = x
+    self.rect.bottom = y
+    
+    self.is_monster = True
+    self.is_music_playing = False
+  
+  def start_monster_music(self):
+    if not self.is_music_playing and (self.player.rect.top - self.rect.bottom) <= 1.5*HEIGHT:
+      monster_sound.play(100)
+      self.is_music_playing = True
+  
+  def kill_monster(self):
+    if (self.rect.bottom - self.player.rect.top) >= 1.5*HEIGHT or self.player.is_loose:
+      monster_sound.stop()
+      self.kill()
 
 class Platforms(pygame.sprite.Sprite):
   def __init__(self, player):
@@ -173,9 +203,11 @@ class Platforms(pygame.sprite.Sprite):
       platform.end_game()
   
   def generate_platforms(self):
+    monster_frequency = 10
+    
     current_h = HEIGHT
     current_x = WIDTH/2
-    for i in range (500):
+    for i in range (1, 500):
       if (current_x + 50) > (WIDTH - platform_size[0]):
         x = random.uniform(0, current_x - 50 - platform_size[0])
       elif (current_x - 50 - platform_size[0]) < 0:
@@ -222,6 +254,10 @@ class Platforms(pygame.sprite.Sprite):
         current_h = y - 2*platform_size[1]
       
       self.platforms.append(platform)
+      
+      if i % 40 == 0:
+        monster = Monster(current_x + platform_size[0]/2, y, self.player)
+        self.platforms.append(monster)
   
   def play_again(self):
     self.is_loose = False
