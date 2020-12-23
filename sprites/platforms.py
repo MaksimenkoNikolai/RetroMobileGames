@@ -174,11 +174,31 @@ class Platforms(pygame.sprite.Sprite):
   
   def generate_platforms(self):
     current_h = HEIGHT
+    current_x = WIDTH/2
     for i in range (500):
-      x = random.randint(0, WIDTH - platform_size[0])
-      y = current_h - random.randint(35, self.player.rect.height*3)
+      if (current_x + 50) > (WIDTH - platform_size[0]):
+        x = random.uniform(0, current_x - 50 - platform_size[0])
+      elif (current_x - 50 - platform_size[0]) < 0:
+        x = random.uniform(current_x + 50, WIDTH - platform_size[0]- 10)
+      else:
+        if random.random() > 0.5:
+          x = random.uniform(0, current_x - 50 - platform_size[0])
+        else:
+          x = random.uniform(current_x + 50, WIDTH - platform_size[0]-10)
+      if ((-current_h + HEIGHT)/(HEIGHT/20)) > (2*self.player.rect.height):
+        y = current_h - random.uniform(2*self.player.rect.height, 3*self.player.rect.height-20)
+      else:
+        y = current_h - random.uniform(35 + (-current_h + HEIGHT)/(HEIGHT/20), 70 + (-current_h + HEIGHT)/(HEIGHT/20))
+      
       current_h = y
-      if random.random() > 0.3: 
+      current_x = x
+      
+      if ((-y + HEIGHT)/(HEIGHT/10)/100) > 0.7:
+        prob = 0.7
+      else: 
+        prob = ((-y + HEIGHT)/(HEIGHT/10)/100)
+      
+      if random.random() > prob: 
         platform = GreenPlatform(x, y, self.player)
       else:
         platform = BluePlatform(x, y, self.player)
@@ -195,8 +215,11 @@ class Platforms(pygame.sprite.Sprite):
         else:
           break_x = random.uniform(x + platform_size[0], WIDTH - platform_size[0])
         
-        breaking_platrofm = BreakingPlatform(break_x, y, self.player)
+        breaking_platrofm = BreakingPlatform(break_x, y - 2*platform_size[1], self.player)
         self.platforms.append(breaking_platrofm)
+        
+        current_x = break_x
+        current_h = y - 2*platform_size[1]
       
       self.platforms.append(platform)
   
