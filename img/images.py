@@ -90,7 +90,7 @@ platform_img = pygame.transform.scale(
   pygame.image.load(
     os.path.join(img_folder, 'platform_green.png')
     ), 
-  (int(WIDTH/5), int(int(WIDTH/5)/platform_size[0]*platform_size[1]) + 3)
+  (int(WIDTH/6), int(int(WIDTH/6)/platform_size[0]*platform_size[1]) + 3)
 )
 
 platform_blue_size = Image.open(os.path.join(img_folder, 'platform_blue.png')).size
@@ -99,7 +99,7 @@ platform_blue_img = pygame.transform.scale(
   pygame.image.load(
     os.path.join(img_folder, 'platform_blue.png')
     ), 
-  (int(WIDTH/5), int(int(WIDTH/5)/platform_blue_size[0]*platform_blue_size[1]))
+  (int(WIDTH/6), int(int(WIDTH/6)/platform_blue_size[0]*platform_blue_size[1]))
 )
 
 platform_break1_size = Image.open(os.path.join(img_folder, 'platform_break1.png')).size
@@ -108,7 +108,7 @@ platform_break1_img = pygame.transform.scale(
   pygame.image.load(
     os.path.join(img_folder, 'platform_break1.png')
     ), 
-  (int(WIDTH/5), int(int(WIDTH/5)/platform_break1_size[0]*platform_break1_size[1]))
+  (int(WIDTH/6), int(int(WIDTH/6)/platform_break1_size[0]*platform_break1_size[1]))
 )
 
 platform_break2_size = Image.open(os.path.join(img_folder, 'platform_break2.png')).size
@@ -117,7 +117,7 @@ platform_break2_img = pygame.transform.scale(
   pygame.image.load(
     os.path.join(img_folder, 'platform_break2.png')
     ), 
-  (int(WIDTH/5), int(int(WIDTH/5)/platform_break2_size[0]*platform_break2_size[1]))
+  (int(WIDTH/6), int(int(WIDTH/6)/platform_break2_size[0]*platform_break2_size[1]))
 )
 
 platform_break3_size = Image.open(os.path.join(img_folder, 'platform_break3.png')).size
@@ -126,7 +126,7 @@ platform_break3_img = pygame.transform.scale(
   pygame.image.load(
     os.path.join(img_folder, 'platform_break3.png')
     ), 
-  (int(WIDTH/5), int(int(WIDTH/5)/platform_break3_size[0]*platform_break3_size[1]))
+  (int(WIDTH/6), int(int(WIDTH/6)/platform_break3_size[0]*platform_break3_size[1]))
 )
 
 
@@ -136,7 +136,7 @@ platform_break4_img = pygame.transform.scale(
   pygame.image.load(
     os.path.join(img_folder, 'platform_break4.png')
     ), 
-  (int(WIDTH/5), int(int(WIDTH/5)/platform_break4_size[0]*platform_break4_size[1]))
+  (int(WIDTH/6), int(int(WIDTH/6)/platform_break4_size[0]*platform_break4_size[1]))
 )
 
 

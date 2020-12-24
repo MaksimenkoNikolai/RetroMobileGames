@@ -60,6 +60,13 @@ class Player(pygame.sprite.Sprite):
       else: 
         self.fall()
     
+    self.kill_bullets()
+  
+  def kill_bullets(self):
+    for bullet in self.bullets:
+      if bullet.rect.bottom <= 0:
+        bullet.rect.left = -500
+        bullet.kill()
   
   def draw(self, screen):
     screen.blit(self.image, self.rect)
