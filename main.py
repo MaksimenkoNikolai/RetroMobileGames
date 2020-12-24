@@ -4,35 +4,43 @@ import snake.main as snake
 import flappy.main as flappy
 import doodle.main as doodle
 
-FPS = 60
+from settings import *
+
+from menu import Menu
 
 # init
 pygame.init()
-screen = pygame.display.set_mode((414, 736))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Nostalgic games")
 clock = pygame.time.Clock()
 running = True
+
+menu = Menu()
 
 def handle_events():
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
-    if event.type == pygame.KEYDOWN:
-      if event.key == pygame.K_LEFT:
+    
+    if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+      if menu.is_doodle_clicked(event.pos):
         doodle.init()
-      if event.key == pygame.K_RIGHT:
+      if menu.is_flappy_clicked(event.pos):
         flappy.init()
-      if event.key == pygame.K_SPACE:
+      if menu.is_snake_clicked(event.pos):
         snake.init()
+      # if menu.is_doodle_clicked(event.pos):
+      #   doodle.init()
 
 
 def draw():
-  surf = pygame.Surface((200, 200))
-  surf.fill((0,0,0))
-  screen.blit(surf, (50, 50))
+  surf = pygame.Surface((WIDTH, HEIGHT))
+  surf.fill((42, 62, 81))
+  screen.blit(surf, (0, 0))
+  
+  menu.draw(screen)
+  
   pygame.display.flip()
-  # screen.blit(bg, (0, 0)) 
-
 
 
 # def update():

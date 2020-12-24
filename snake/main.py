@@ -3,7 +3,6 @@ import time
 import random
  
 def init():
-    print('aaa')
     pygame.init()
     
     white = (255, 255, 255)
