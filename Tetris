@@ -1,0 +1,122 @@
+import pygame
+from copy import deepcopy
+from random import choice, randrange
+
+W = 10
+H = 20
+TITLE = 45
+GAME_RES = W*TITLE, H*TITLE
+FPS = 60
+
+
+
+pygame.init()
+game_sc = pygame.display.set_mode(GAME_RES)
+clock = pygame.time.Clock()
+
+
+grid= [pygame.Rect(x*TITLE, y*TITLE, TITLE, TITLE) for x in range(W) for y in range(H)]
+
+#координаты фигур
+figures_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
+              [(0, -1), (-1, -1), (-1, 0), (0, 0)],
+              [(-1, 0), (-1, 1), (0, 0), (0, -1)],
+              [(0, 0), (-1, 0), (0, 1), (-1, -1)],
+              [(0, 0), (0, -1), (0, 1), (-1, -1)],
+              [(0, 0), (0, -1), (0, 1), (-1, 0)]]
+figures = [[pygame.Rect(x+W//2, y+1, 1, 1) for x, y, in fig_pos] for fig_pos in figures_pos]
+figure_rect= pygame.Rect(0, 0, TITLE-2, TITLE-2)
+field = [[0 for i in range(W)] for i in range(H)]
+
+#падение
+move_anim, move_speed, move_limit = 0, 25, 3000
+
+figure = deepcopy(choice(figures))
+
+def check_borders():
+    if figure[i].x < 0 or figure[i].x > W -1:
+        return False
+    elif figure[i].y > H-1 or field[figure[i].y][figure[i].x]:
+        return False
+    return True
+
+while True:
+    dx, rotate = 0, False
+    game_sc.fill(pygame.Color('black'))
+#двигаем фигуру кнопочками
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                dx = -1
+            elif event.key == pygame.K_RIGHT:
+                dx = 1
+            elif event.key == pygame.K_DOWN:
+                move_limit = 300
+            elif event.key == pygame.K_UP:
+                rotate = True
+#двигаем по х
+    figure_old = deepcopy(figure)
+    for i in range(4):
+        figure[i].x += dx
+        if not check_borders():
+            figure = deepcopy(figure_old)
+            break
+    #движение по y
+    move_anim += move_speed
+    if move_anim > move_limit:
+        move_anim = 0
+        figure_old = deepcopy(figure)
+        for i in range(4):
+            figure[i].y += 1
+            if not check_borders():
+                for i in range(4):
+                    field[figure_old[i].y][figure_old[i].x] = pygame.Color('white')
+                figure = deepcopy(choice(figures))
+                move_limit = 2000
+                break
+    #поворот фигуры
+    midF = figure[0]
+    figure_old = deepcopy(figure)
+    if rotate:
+        for i in range(4):
+            x = figure[i].y - midF.y
+            y = figure[i].x - midF.x
+            figure[i].x = midF.x - x
+            figure[i].y = midF.y + y
+
+        if not check_borders():
+            figure = deepcopy(figure_old)
+            break
+    #удаление полной строки
+    line = H - 1
+    for row in range(H - 1, -1, -1):
+        count = 0
+        for i in range(W):
+            if field[row][i]:
+                count += 1
+            field[line][i] = field[row][i]
+        if count < W:
+            line -= 1
+
+    #отрисовка поля
+    [pygame.draw.rect(game_sc, (40,40,40),i_rect,1) for i_rect in grid]
+    #отрисовка фигуры
+    for i in range(4):
+        figure_rect.x=figure[i].x*TITLE
+        figure_rect.y=figure[i].y*TITLE
+        pygame.draw.rect(game_sc, pygame.Color('white'), figure_rect)
+    #отрисовка упавшего
+    for y, raw in enumerate(field):
+        for x, col in enumerate(raw):
+            if col:
+                 figure_rect.x, figure_rect.y = x * TITLE, y * TITLE
+                 pygame.draw.rect(game_sc, pygame.Color('white'), figure_rect)
+
+
+
+
+    pygame.display.flip()
+    clock.tick()
